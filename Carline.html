@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carline Pickup App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Carline Pickup</h2>
+        <p id="timeSlot">Your time slot: <strong>Not Assigned</strong></p>
+        <p id="leaveTime">Time to leave: <strong>Waiting...</strong></p>
+        <p id="status">Status: <strong>Not in queue</strong></p>
+        <button id="btn-waiting" onclick="assignTimeSlot()">Get Time Slot</button>
+        <button id="btn-onway" onclick="markOnWay()">On the Way</button>
+        <button id="btn-arrived" onclick="markArrived()">Arrived</button>
+        <button id="btn-left" onclick="leaveCampus()">Left Campus</button>
+    </div>
+    
+    <script>
+        function assignTimeSlot() {
+            const now = new Date();
+            const timeSlot = new Date(now.getTime() + Math.random() * 300000); // Random time slot within 5 min
+            document.getElementById("timeSlot").innerHTML = `Your time slot: <strong>${timeSlot.toLocaleTimeString()}</strong>`;
+            document.getElementById("leaveTime").innerHTML = `Time to leave: <strong>${new Date(timeSlot.getTime() - 300000).toLocaleTimeString()}</strong>`;
+            updateStatus("Waiting for pickup", "waiting", "btn-waiting");
+        }
+
+        function markOnWay() {
+            updateStatus("Parent on the way", "on-way", "btn-onway");
+        }
+
+        function markArrived() {
+            updateStatus("Parent arrived", "arrived", "btn-arrived");
+        }
+
+        function leaveCampus() {
+            document.getElementById("timeSlot").innerHTML = "Your time slot: <strong>Not Assigned</strong>";
+            document.getElementById("leaveTime").innerHTML = "Time to leave: <strong>Waiting...</strong>";
+            updateStatus("Left campus", "left", "btn-left");
+        }
+
+        function updateStatus(status, className, buttonId) {
+            document.getElementById("status").innerHTML = `Status: <strong>${status}</strong>`;
+            localStorage.setItem("studentStatus", status);
+
+            // Remove active class from all buttons
+            document.querySelectorAll("button").forEach(btn => btn.classList.remove("waiting", "on-way", "arrived", "left"));
+
+            // Add active class to selected button
+            document.getElementById(buttonId).classList.add(className);
+        }
+    </script>
+</body>
+</html>

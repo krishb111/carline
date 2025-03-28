@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher View</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Teacher Dashboard</h2>
+        <p id="studentStatus">Student Status: <strong>Loading...</strong></p>
+        <a href="Carline.html">Back to Carline</a>
+    </div>
+
+    <script>
+        function updateStatus() {
+            const status = localStorage.getItem("studentStatus") || "No status available";
+            document.getElementById("studentStatus").innerHTML = `Student Status: <strong>${status}</strong>`;
+        }
+
+        setInterval(updateStatus, 1000); 
+        updateStatus();
+    </script>
+</body>
+</html>
